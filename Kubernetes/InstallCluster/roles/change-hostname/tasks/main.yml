@@ -1,18 +1,14 @@
 - name: Set a hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}"
-  tags:
-    - change_hostname
 
 - name: Change hostname in hosts file
   lineinfile: dest=/etc/hosts
               regexp="^127\.0\.1\.1"
               insertbefore=BOF
-              line="127.0.1.1 {{ shortname }}"
-  tags:
-    - change_hostname
+              line="127.0.1.1 {{ shortname }}\n\n"
 
-- name: Add hosts in hosts file
+- name: Add all hosts in hosts file
   lineinfile: dest=/etc/hosts
               regexp=".*{{ item }}$"
               insertbefore="# The"
