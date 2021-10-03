@@ -1,0 +1,77 @@
+---
+- name: Install docker
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - docker
+    - docker.io
+
+- name: Restart docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: yes
+    masked: no
+
+- name: Copy docker config
+  ansible.builtin.copy:
+    src: src/docker/daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Restart docker service
+  ansible.builtin.systemd:
+    state: restarted
+    name: docker
+
+- name: Add kuber apt key
+  ansible.builtin.apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Copy apt source file
+  ansible.builtin.copy:
+    src: src/configs/apt/kubernetes.list
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Update cache
+  apt:
+    update_cache: yes
+
+- name: Installing kuber packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: Hold kubelet
+  dpkg_selections:
+    name: kubelet
+    selection: hold
+
+- name: Hold kubeadm
+  dpkg_selections:
+    name: kubeadm
+    selection: hold
+
+- name: Hold kubectl
+  dpkg_selections:
+    name: kubectl
+    selection: hold
+
+- name: Insert export in environment file
+  lineinfile: dest=/etc/environment
+              insertbefore=EOF
+              line="export KUBECONFIG=/etc/kubernetes/admin.conf"
+
+- name: Apply export kubeconfig
+  shell: export KUBECONFIG=/etc/kubernetes/admin.conf
+  args:
+    executable: /bin/bash
