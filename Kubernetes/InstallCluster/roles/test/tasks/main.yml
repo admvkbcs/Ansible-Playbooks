@@ -2,6 +2,7 @@
 - name: Set a hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}"
+  tags: test
 
 - name: Add all hosts in hosts file
   lineinfile: dest=/etc/hosts
@@ -10,3 +11,4 @@
               line="127.0.1.1 {{ shortname }}\n\n{{ hostvars[item].ansible_host }} {{ hostvars[item].hostname }}"
   when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.all }}"
+  tags: test
