@@ -9,6 +9,7 @@
   remote_user:
     ansible
   roles:
+    - test
     - apt-install-before
     - change-hostname
     - configure-system-before
