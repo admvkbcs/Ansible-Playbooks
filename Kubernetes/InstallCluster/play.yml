@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+    - apt-install-before
+    - change-hostname
+    - configure-system-before
+    - install-docker-kuber
+
+- hosts: master
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+    - init-kuber
