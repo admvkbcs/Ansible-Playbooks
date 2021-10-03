@@ -18,4 +18,5 @@
               insertbefore="# The"
               line: "{{ hostvars[item].ansible_host }} {{ hostvars[item].hostname }}"
   when: hostvars[item].ansible_host is defined
-  with_items: "{{ groups.all }}"
+  with_items:
+    - "{{ groups.all }}"
