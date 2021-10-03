@@ -14,6 +14,8 @@
 
 - name: Add hosts in hosts file
   lineinfile: dest=/etc/hosts
-              regexp="^192"
+              regexp: ".*{{ item }}$"
               insertbefore="# The"
-              line="192.168.0.100 master1.home.loc master1\n192.168.0.101 node1.home.loc node1\n192.168.0.102 node2.home.loc node2\n192.168.0.103 node3.home.loc node3\n"
+              line: "{{ hostvars[item].ansible_host }} {{ hostvars[item].hostname }}"
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.all }}"
