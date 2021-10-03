@@ -7,7 +7,7 @@
     - docker
     - docker.io
 
-- name: Restart docker service
+- name: Enable docker service
   ansible.builtin.systemd:
     name: docker
     enabled: yes
