@@ -8,7 +8,7 @@
   lineinfile: dest=/etc/hosts
               regexp="^127\.0\.1\.1"
               insertbefore=BOF
-              line="127.0.1.1 {{ shortname }}\n{{ hostvars[item].ansible_host }} {{ hostvars[item].hostname }}"
+              line="127.0.1.1 {{ shortname }}\n{{ hostvars[item].ansible_host }} {{ hostvars[item].hostname }} {{ hostvars[item].shortname }}"
   when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.all }}"
   tags: test
