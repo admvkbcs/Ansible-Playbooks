@@ -21,4 +21,4 @@
   register: command_message
 
 - debug:
-    msg="This command run on nodes: {{ command_message.stdout }}"
+    msg="sudo {{ command_message.stdout }}"
