@@ -21,4 +21,4 @@
   register: command_message
 
 - debug:
-    msg="Take this command and run it on all worker nodes:\n{{ command_message.stdout }}"
+    msg="This command run on nodes: {{ command_message.stdout }}"
