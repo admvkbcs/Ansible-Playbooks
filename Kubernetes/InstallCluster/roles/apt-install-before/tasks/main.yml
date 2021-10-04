@@ -24,8 +24,6 @@
     - curl
     - apt-transport-https
     - git
-    - mc
-    - htop
 
 - name: Remove useless packages from the cache
   apt:
