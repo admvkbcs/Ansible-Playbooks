@@ -1,5 +1,5 @@
 # KuberInstall
-Ansible playbook to install Kubernetes cluster on Ubuntu 18.04
+Ansible playbook to install Kubernetes cluster on **Ubuntu 18.04**
 
 Can be installed on any number of nodes.
 
